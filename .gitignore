@@ -1,0 +1,10 @@
+.env
+*.session
+*.session-journal
+placements.db
+venv/
+.venv/
+.venv-1/
+__pycache__/
+*.pyc
+.app.lock
