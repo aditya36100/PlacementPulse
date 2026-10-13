@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime, timezone, timedelta
 
 from telethon import TelegramClient, events
@@ -7,6 +8,8 @@ from app.extractor import extract_placement_info
 from app.db import (
     get_backfill_state,
     get_last_backfill_id,
+    get_placements_missing_link,
+    set_application_link,
     insert_placement,
     mark_message_processed,
     message_processed,
@@ -49,7 +52,64 @@ client = TelegramClient(
 )
 
 
-async def _store_if_relevant(message_id, date, text):
+_URL_RX = re.compile(
+    r"(?:https?://|www\.)[^\s<>\"']+|\b(?:forms\.gle|bit\.ly|tinyurl\.com|lnkd\.in)/[^\s<>\"']+",
+    re.I,
+)
+_SKIP_HOSTS = ("t.me", "telegram.me", "telegram.dog", "chat.whatsapp.com", "wa.me")
+_FORM_HINTS = ("forms.gle", "docs.google.com/forms", "forms.office.com", "forms.microsoft.com", "typeform.com", "airtable.com")
+_APPLY_HINTS = ("regist", "apply", "career", "jobs", "hiring", "signup", "sign-up", "form", "walkin",
+                "walk-in", "recruit", "internship", "unstop", "naukri", "lever.co", "greenhouse.io", "workday")
+
+
+def _clean_url(u):
+    u = u.strip().rstrip(".,;:!?)]}>\"'*")
+    if not re.match(r"https?://", u, re.I):
+        u = "https://" + u
+    return u
+
+
+def find_link(msg, text):
+    """Best registration / application URL in a Telegram message.
+
+    Looks at hidden hyperlinks (text like 'Register here'), visible URLs and
+    inline buttons. Google Forms win; Telegram/WhatsApp group links are ignored.
+    """
+    urls = []
+    try:
+        if msg is not None:
+            for ent, ent_text in (msg.get_entities_text() or []):
+                u = getattr(ent, "url", None)
+                if u:
+                    urls.append(u)
+                elif type(ent).__name__ == "MessageEntityUrl":
+                    urls.append(ent_text)
+            for row in (msg.buttons or []):
+                for b in row:
+                    u = getattr(b, "url", None)
+                    if u:
+                        urls.append(u)
+    except Exception as e:
+        print(f"[links] could not read entities: {e}")
+    urls += _URL_RX.findall(text or "")
+
+    best, best_score, seen = None, -1, set()
+    for raw in urls:
+        u = _clean_url(raw)
+        low = u.lower()
+        if low in seen:
+            continue
+        seen.add(low)
+        host = re.sub(r"^https?://(www\.)?", "", low).split("/")[0]
+        if host in _SKIP_HOSTS:
+            continue
+        score = 100 if any(h in low for h in _FORM_HINTS) else 50 if any(h in low for h in _APPLY_HINTS) else 10
+        if score > best_score:
+            best, best_score = u, score
+    return best
+
+
+async def _store_if_relevant(message_id, date, text, msg=None):
     # Don't send the same Telegram message to Gemini again
     if message_processed(message_id):
         print(f"[=] already processed: {message_id}")
@@ -89,6 +149,7 @@ async def _store_if_relevant(message_id, date, text):
             tech_stack=info.get("tech_stack"),
             tech_stack_inferred=info.get("tech_stack_inferred"),
             prep_topics=info.get("prep_topics"),
+            application_link=find_link(msg, text),
         )
 
         print(
@@ -113,6 +174,7 @@ async def handle_new_message(event):
         event.id,
         event.date,
         text,
+        msg=event.message,
     )
 
 
@@ -167,6 +229,7 @@ async def backfill():
                     message.id,
                     message.date,
                     message.raw_text,
+                    msg=message,
                 )
 
             if not ok:
@@ -202,6 +265,36 @@ async def backfill():
 
 
 
+async def relink_existing():
+    """One-time fill of registration links for placements stored before this feature.
+
+    Re-reads the original Telegram messages (no Gemini calls, no quota used).
+    """
+    rows = get_placements_missing_link()
+    if not rows:
+        return
+    by_id = {r["message_id"]: (r["raw_message"] or "") for r in rows}
+    print(f"[relink] looking up registration links for {len(by_id)} stored placements")
+    done = set()
+    for group in GROUPS:
+        ids = [i for i in by_id if i not in done]
+        for i in range(0, len(ids), 100):
+            try:
+                msgs = await client.get_messages(group, ids=ids[i:i + 100])
+            except Exception as e:
+                print(f"[relink] {group}: {e}")
+                continue
+            for m in msgs:
+                if m is None or not m.raw_text:
+                    continue
+                # make sure this is really the same message (IDs can repeat across groups)
+                if by_id.get(m.id, "").strip() != m.raw_text.strip():
+                    continue
+                set_application_link(m.id, find_link(m, m.raw_text))
+                done.add(m.id)
+    print(f"[relink] done ({len(done)} checked)")
+
+
 async def start_listener(run_backfill: bool = True):
     await client.start()  # type: ignore
 
@@ -209,6 +302,11 @@ async def start_listener(run_backfill: bool = True):
 
     if run_backfill:
         await backfill()
+
+    try:
+        await relink_existing()
+    except Exception as e:
+        print(f"[relink] skipped: {e}")
 
     client.add_event_handler(
         handle_new_message,

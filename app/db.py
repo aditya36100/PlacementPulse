@@ -66,6 +66,7 @@ NEW_COLUMNS = [
     ("tech_stack_inferred", "INTEGER"),
     ("prep_topics", "TEXT"),
     ("prep_plan", "TEXT"),
+    ("application_link", "TEXT"),
 ]
 
 
@@ -205,6 +206,7 @@ def insert_placement(
     tech_stack=None,
     tech_stack_inferred=False,
     prep_topics=None,
+    application_link=None,
 ):
     eligibility_json = json.dumps(eligibility) if isinstance(eligibility, (list, dict)) else eligibility
     branches_json = json.dumps(eligibility_branches) if eligibility_branches else None
@@ -218,9 +220,10 @@ def insert_placement(
                     summary, raw_message, eligibility_branches, eligibility_batch,
                     eligibility_min_cgpa, eligibility_min_10, eligibility_min_12,
                     eligibility_backlogs, package_lpa, deadline_date, location,
-                    position_type, has_ppo, tech_stack, tech_stack_inferred, prep_topics
+                    position_type, has_ppo, tech_stack, tech_stack_inferred, prep_topics,
+                    application_link
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     message_id, date, company, roles, eligibility_json, ctc, deadline, mode,
@@ -228,7 +231,7 @@ def insert_placement(
                     eligibility_min_cgpa, eligibility_min_10, eligibility_min_12,
                     eligibility_backlogs, package_lpa, deadline_date, location,
                     position_type, int(bool(has_ppo)), tech_stack, int(bool(tech_stack_inferred)),
-                    prep_topics,
+                    prep_topics, application_link or "",
                 ),
             )
         except sqlite3.IntegrityError:
@@ -382,4 +385,21 @@ def set_last_backfill_id(chat_id, last_message_id, last_message_date=None):
                           updated_at = CURRENT_TIMESTAMP
             """,
             (str(chat_id), int(last_message_id), last_message_date),
+        )
+
+
+def get_placements_missing_link():
+    """Stored placements whose registration link has not been looked up yet."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT message_id, raw_message FROM placements WHERE application_link IS NULL"
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+
+def set_application_link(message_id, link):
+    with get_conn() as conn:
+        conn.execute(
+            "UPDATE placements SET application_link = ? WHERE message_id = ?",
+            (link or "", message_id),
         )

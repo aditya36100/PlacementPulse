@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
    <meta name="color-scheme" content="light">
    <title>PlacementPulse</title>
+   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313152E'/%3E%3Cpath d='M5 16h5l3-8 5 16 3-8h6' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -597,6 +598,30 @@
          color: #5A5F7E
       }
 
+      .lgo img {
+         position: absolute;
+         inset: 0;
+         width: 100%;
+         height: 100%;
+         object-fit: contain;
+         box-sizing: border-box;
+         padding: calc(var(--s)*.17);
+         display: none
+      }
+
+      .lgo.has {
+         background: #fff !important;
+         box-shadow: inset 0 0 0 1px rgba(15, 18, 50, .10)
+      }
+
+      .lgo.has img {
+         display: block
+      }
+
+      .lgo.has b {
+         visibility: hidden
+      }
+
       /* company logo tile */
       .lgo {
          --s: 48px;
@@ -1100,6 +1125,279 @@
 
       .eg-l li.bad .h {
          color: #EA5E33
+      }
+
+      /* eligibility card v2 */
+      .eg2 {
+         --c: #6C6FE8;
+         --c2: #F3F4FF;
+         --cb: #DADCF7;
+         --ct: #4A4FC9;
+         position: relative;
+         border-radius: 24px;
+         padding: 22px 22px 20px 28px;
+         overflow: hidden;
+         border: 1px solid var(--cb);
+         background: linear-gradient(135deg, var(--c2) 0%, #fff 62%);
+         box-shadow: 0 14px 34px -20px rgba(30, 30, 90, .35)
+      }
+
+      .eg2::before {
+         content: "";
+         position: absolute;
+         left: 0;
+         top: 0;
+         bottom: 0;
+         width: 6px;
+         background: var(--c)
+      }
+
+      .eg2.yes {
+         --c: #0FA97F;
+         --c2: #E9FAF2;
+         --cb: #BFE8D6;
+         --ct: #087A5A
+      }
+
+      .eg2.no {
+         --c: #EA5E33;
+         --c2: #FFF0EA;
+         --cb: #F8D3C7;
+         --ct: #C2411B
+      }
+
+      .eg2.maybe {
+         --c: #E9A100;
+         --c2: #FFF7E0;
+         --cb: #F1DDA0;
+         --ct: #8A6100
+      }
+
+      .eg2-top {
+         display: flex;
+         align-items: center;
+         gap: 16px;
+         flex-wrap: wrap
+      }
+
+      .eg2-ring {
+         position: relative;
+         width: 68px;
+         height: 68px;
+         flex: none
+      }
+
+      .eg2-ring svg {
+         display: block;
+         width: 100%;
+         height: 100%
+      }
+
+      .eg2-ring b {
+         position: absolute;
+         inset: 0;
+         display: grid;
+         place-items: center;
+         font-size: 16px;
+         font-weight: 800;
+         color: var(--ct);
+         letter-spacing: -.02em
+      }
+
+      .eg2-ico {
+         width: 54px;
+         height: 54px;
+         border-radius: 17px;
+         display: grid;
+         place-items: center;
+         background: var(--c);
+         color: #fff;
+         flex: none
+      }
+
+      .eg2-tt {
+         flex: 1;
+         min-width: 200px
+      }
+
+      .eg2-badge {
+         display: inline-flex;
+         align-items: center;
+         gap: 6px;
+         padding: 4px 11px 4px 8px;
+         border-radius: 999px;
+         background: var(--c);
+         color: #fff;
+         font-size: 11.5px;
+         font-weight: 700;
+         letter-spacing: .05em;
+         text-transform: uppercase;
+         margin-bottom: 7px
+      }
+
+      .eg2-badge svg {
+         width: 13px;
+         height: 13px
+      }
+
+      .eg2-tt b {
+         display: block;
+         font-size: 19px;
+         line-height: 1.25;
+         font-weight: 700;
+         letter-spacing: -.02em;
+         color: var(--ink)
+      }
+
+      .eg2-tt small {
+         display: block;
+         margin-top: 3px;
+         color: var(--mut);
+         font-size: 13.5px;
+         line-height: 1.45
+      }
+
+      .eg2-edit {
+         padding: 9px 17px;
+         border-radius: 999px;
+         background: #fff;
+         border: 1px solid var(--cb);
+         color: var(--ct);
+         font-weight: 700;
+         font-size: 13.5px;
+         white-space: nowrap;
+         transition: background .15s, color .15s, transform .15s
+      }
+
+      .eg2-edit:hover {
+         background: var(--c);
+         border-color: var(--c);
+         color: #fff;
+         transform: translateY(-1px)
+      }
+
+      .eg2-edit.pri {
+         background: var(--c);
+         border-color: var(--c);
+         color: #fff
+      }
+
+      .eg2-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+         gap: 10px;
+         margin-top: 18px
+      }
+
+      .eg2-it {
+         display: flex;
+         align-items: center;
+         gap: 11px;
+         padding: 12px 14px;
+         border-radius: 16px;
+         background: #fff;
+         border: 1px solid rgba(20, 20, 70, .08);
+         min-width: 0
+      }
+
+      .eg2-it.ok {
+         border-color: #BFE8D6;
+         background: linear-gradient(#fff, #F4FCF8)
+      }
+
+      .eg2-it.bad {
+         border-color: #F5C3B4;
+         background: linear-gradient(#fff, #FFF6F3);
+         box-shadow: 0 0 0 3px rgba(234, 94, 51, .08)
+      }
+
+      .eg2-it.unk {
+         border-style: dashed
+      }
+
+      .eg2-m {
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         display: grid;
+         place-items: center;
+         color: #fff;
+         background: #C4C8DC;
+         flex: none
+      }
+
+      .eg2-it.ok .eg2-m {
+         background: #0FA97F
+      }
+
+      .eg2-it.bad .eg2-m {
+         background: #EA5E33
+      }
+
+      .eg2-m svg {
+         width: 15px;
+         height: 15px
+      }
+
+      .eg2-it div {
+         min-width: 0
+      }
+
+      .eg2-it small {
+         display: block;
+         font-size: 11px;
+         font-weight: 700;
+         letter-spacing: .06em;
+         text-transform: uppercase;
+         color: var(--mut)
+      }
+
+      .eg2-it b {
+         display: block;
+         font-size: 14.5px;
+         font-weight: 600;
+         color: var(--ink);
+         overflow-wrap: anywhere
+      }
+
+      .eg2-you {
+         margin-left: auto;
+         padding: 4px 10px;
+         border-radius: 999px;
+         font-size: 12.5px;
+         font-weight: 700;
+         white-space: nowrap;
+         background: #EEF0F8;
+         color: #5A5F7E
+      }
+
+      .eg2-it.ok .eg2-you {
+         background: #DDF5EA;
+         color: #087A5A
+      }
+
+      .eg2-it.bad .eg2-you {
+         background: #FFE3DA;
+         color: #C2411B
+      }
+
+      .eg2-tip {
+         margin-top: 14px;
+         padding: 11px 14px;
+         border-radius: 14px;
+         background: rgba(255, 255, 255, .75);
+         border: 1px dashed var(--cb);
+         color: #3B3F5C;
+         font-size: 13px;
+         line-height: 1.5
+      }
+
+      .eg2-tip strong {
+         color: var(--ct)
+      }
+
+      .eg-l li.nm .n {
+         color: #8A8FA8
       }
 
       /* flyout panels */
@@ -1643,7 +1941,7 @@
 
    <script>
       /* =====================================================================
-         CONFIG & CURATED DATA (Matching Placement Wire Inbox v2 screenshot)
+         CONFIG & CURATED DATA (Matching PlacementPulse Inbox v2 screenshot)
          ===================================================================== */
       const API_URL = '/api/placements';
       const POLL_MS = 60000;
@@ -1757,6 +2055,57 @@
          if (any || !out.size) return null;
          return [...out];
       }
+      /* ---------- company location (city) instead of the reporting venue ---------- */
+      const CITIES = {
+         'Bengaluru': ['bengaluru', 'bangalore', 'bengalooru'], 'Hyderabad': ['hyderabad', 'secunderabad'], 'Chennai': ['chennai', 'madras'],
+         'Pune': ['pune'], 'Mumbai': ['mumbai', 'bombay', 'navi mumbai', 'thane'], 'Delhi': ['delhi', 'new delhi'], 'Gurugram': ['gurugram', 'gurgaon'],
+         'Noida': ['noida', 'greater noida'], 'Kolkata': ['kolkata', 'calcutta'], 'Ahmedabad': ['ahmedabad'], 'Coimbatore': ['coimbatore'],
+         'Kochi': ['kochi', 'cochin', 'ernakulam'], 'Thiruvananthapuram': ['thiruvananthapuram', 'trivandrum'], 'Mysuru': ['mysuru', 'mysore'],
+         'Mangaluru': ['mangaluru', 'mangalore'], 'Nagpur': ['nagpur'], 'Jaipur': ['jaipur'], 'Indore': ['indore'], 'Chandigarh': ['chandigarh', 'mohali'],
+         'Bhubaneswar': ['bhubaneswar'], 'Vadodara': ['vadodara', 'baroda'], 'Lucknow': ['lucknow'], 'Visakhapatnam': ['visakhapatnam', 'vizag'],
+         'Hubballi': ['hubballi', 'hubli'], 'Jamshedpur': ['jamshedpur'], 'Remote': ['remote', 'work from home', 'wfh']
+      };
+      const CITY_RX = Object.entries(CITIES).map(([n, a]) => [n, new RegExp('\\b(?:' + a.join('|') + ')\\b', 'i')]);
+      // Main India base of each company. To fix or add one: lowercase name, letters and digits only.
+      const HQ = {
+         google: 'Bengaluru', microsoft: 'Hyderabad', amazon: 'Bengaluru', meta: 'Hyderabad', apple: 'Hyderabad', adobe: 'Noida', oracle: 'Bengaluru',
+         ibm: 'Bengaluru', intel: 'Bengaluru', nvidia: 'Bengaluru', amd: 'Bengaluru', qualcomm: 'Bengaluru', cisco: 'Bengaluru', salesforce: 'Hyderabad',
+         sap: 'Bengaluru', dell: 'Bengaluru', hp: 'Bengaluru', samsung: 'Bengaluru', texasinstruments: 'Bengaluru', ti: 'Bengaluru', nxp: 'Bengaluru',
+         broadcom: 'Bengaluru', micron: 'Hyderabad', bosch: 'Bengaluru', siemens: 'Mumbai', honeywell: 'Bengaluru', ge: 'Bengaluru', abb: 'Bengaluru',
+         tcs: 'Mumbai', tataconsultancyservices: 'Mumbai', tataconsultancy: 'Mumbai', infosys: 'Bengaluru', wipro: 'Bengaluru', hcl: 'Noida',
+         hcltech: 'Noida', techmahindra: 'Pune', ltimindtree: 'Mumbai', mindtree: 'Bengaluru', lt: 'Mumbai', larsentoubro: 'Mumbai',
+         tataelxsi: 'Bengaluru', mphasis: 'Bengaluru', persistent: 'Pune', coforge: 'Noida', hexaware: 'Mumbai', cognizant: 'Chennai',
+         capgemini: 'Mumbai', accenture: 'Bengaluru', deloitte: 'Hyderabad', kpmg: 'Bengaluru', ey: 'Bengaluru', pwc: 'Mumbai', zoho: 'Chennai',
+         freshworks: 'Chennai', razorpay: 'Bengaluru', juspay: 'Bengaluru', phonepe: 'Bengaluru', paytm: 'Noida', cred: 'Bengaluru',
+         zerodha: 'Bengaluru', groww: 'Bengaluru', swiggy: 'Bengaluru', zomato: 'Gurugram', flipkart: 'Bengaluru', myntra: 'Bengaluru',
+         meesho: 'Bengaluru', ola: 'Bengaluru', uber: 'Bengaluru', atlassian: 'Bengaluru', intuit: 'Bengaluru', paypal: 'Chennai', visa: 'Bengaluru',
+         mastercard: 'Pune', goldmansachs: 'Bengaluru', jpmorgan: 'Mumbai', morganstanley: 'Mumbai', barclays: 'Pune', hsbc: 'Pune',
+         wellsfargo: 'Hyderabad', hdfcbank: 'Mumbai', icicibank: 'Mumbai', axisbank: 'Mumbai', sbi: 'Mumbai', einfochips: 'Ahmedabad',
+         arm: 'Bengaluru', synopsys: 'Bengaluru', cadence: 'Noida', mathworks: 'Bengaluru', ansys: 'Pune', autodesk: 'Bengaluru',
+         thoughtworks: 'Bengaluru', walmart: 'Bengaluru', mahindra: 'Mumbai', tatamotors: 'Mumbai', reliance: 'Mumbai', jio: 'Mumbai',
+         airtel: 'Gurugram', havells: 'Noida', zensar: 'Pune', zeta: 'Bengaluru', cummins: 'Pune', ericsson: 'Bengaluru', nokia: 'Chennai',
+         philips: 'Bengaluru', lg: 'Noida', juniper: 'Bengaluru', bajaj: 'Pune'
+      };
+      function findCities(text) {
+         const t = String(text || ''), hits = [];
+         CITY_RX.forEach(([n, rx]) => { const m = rx.exec(t); if (m) hits.push([m.index, n]); });
+         if (/\bpan[\s-]?india\b|\ball india\b/i.test(t)) hits.push([-1, 'Pan India']);
+         return hits.sort((a, b) => a[0] - b[0]).map(h => h[1]);
+      }
+      function companyCities(short, full, r) {
+         const sg = x => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+         let c = findCities(r.location);
+         if (!c.length) { const h = HQ[sg(short)] || HQ[sg(full)] || HQ[sg(String(short).split(/\s+/)[0])]; if (h) c = [h]; }
+         if (!c.length) c = findCities(r.raw_message).slice(0, 2);
+         return c.slice(0, 3);
+      }
+      // first registration / form link found in the message text (fallback when none was saved)
+      function firstUrl(t) {
+         const ms = String(t || '').match(/(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:forms\.gle|bit\.ly|tinyurl\.com|lnkd\.in)\/[^\s<>"']+/gi) || [];
+         const ok = ms.map(u => u.replace(/[.,;:!?)\]}>*]+$/, '')).map(u => /^https?:\/\//i.test(u) ? u : 'https://' + u)
+            .filter(u => !/^https?:\/\/(www\.)?(t\.me|telegram\.me|chat\.whatsapp\.com|wa\.me)\b/i.test(u));
+         return ok.find(u => /forms\.gle|docs\.google\.com\/forms|forms\.office\.com/i.test(u)) || ok[0] || '';
+      }
       function normalize(r) {
          if (!r || (r.company == null && !r.summary && !r.roles && !r.raw_message)) return null;
          const posted = parseDate(r.date) || parseDate(r.created_at) || new Date();
@@ -1780,8 +2129,8 @@
             },
             pkg, pt: r.ctc || (pkg != null ? lpa(pkg) : ''),
             stack: splitList(r.tech_stack), stackInferred: !!r.tech_stack_inferred, prep: splitList(r.prep_topics),
-            mode: r.location || '', locs: splitLocs(r.location), modeNote: r.mode || '',
-            link: r.application_link || '',
+            mode: r.location || '', locs: companyCities(s, co, r), modeNote: r.mode || '',
+            link: r.application_link || firstUrl(r.raw_message),
             msg: r.raw_message || r.summary || ''
          };
       }
@@ -1805,9 +2154,60 @@
          cap: ic('<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5M22 9v6"/>', 22)
       };
 
+      /* ---------- real company logos (fetched by our own server, initials are the fallback) ---------- */
+      // To fix or add a company: lowercase name with only letters/digits -> website domain
+      const DOMAINS = {
+         google: 'google.com', microsoft: 'microsoft.com', amazon: 'amazon.com', meta: 'meta.com', apple: 'apple.com', adobe: 'adobe.com',
+         oracle: 'oracle.com', ibm: 'ibm.com', intel: 'intel.com', nvidia: 'nvidia.com', amd: 'amd.com', qualcomm: 'qualcomm.com', cisco: 'cisco.com',
+         salesforce: 'salesforce.com', sap: 'sap.com', dell: 'dell.com', hp: 'hp.com', samsung: 'samsung.com', texasinstruments: 'ti.com', ti: 'ti.com',
+         nxp: 'nxp.com', broadcom: 'broadcom.com', micron: 'micron.com', bosch: 'bosch.com', siemens: 'siemens.com', honeywell: 'honeywell.com',
+         tcs: 'tcs.com', tataconsultancyservices: 'tcs.com', tataconsultancy: 'tcs.com', infosys: 'infosys.com', wipro: 'wipro.com', hcl: 'hcltech.com',
+         hcltech: 'hcltech.com', techmahindra: 'techmahindra.com', ltimindtree: 'ltimindtree.com', mindtree: 'ltimindtree.com', lt: 'larsentoubro.com',
+         larsentoubro: 'larsentoubro.com', tataelxsi: 'tataelxsi.com', mphasis: 'mphasis.com', persistent: 'persistent.com', coforge: 'coforge.com',
+         hexaware: 'hexaware.com', cognizant: 'cognizant.com', capgemini: 'capgemini.com', accenture: 'accenture.com', deloitte: 'deloitte.com',
+         kpmg: 'kpmg.com', ey: 'ey.com', pwc: 'pwc.com', zoho: 'zoho.com', freshworks: 'freshworks.com', razorpay: 'razorpay.com', juspay: 'juspay.in',
+         phonepe: 'phonepe.com', paytm: 'paytm.com', cred: 'cred.club', zerodha: 'zerodha.com', groww: 'groww.in', swiggy: 'swiggy.com',
+         zomato: 'zomato.com', flipkart: 'flipkart.com', myntra: 'myntra.com', meesho: 'meesho.com', ola: 'olacabs.com', uber: 'uber.com',
+         atlassian: 'atlassian.com', intuit: 'intuit.com', paypal: 'paypal.com', visa: 'visa.com', mastercard: 'mastercard.com',
+         goldmansachs: 'goldmansachs.com', jpmorgan: 'jpmorgan.com', morganstanley: 'morganstanley.com', barclays: 'barclays.com', hsbc: 'hsbc.com',
+         wellsfargo: 'wellsfargo.com', hdfcbank: 'hdfcbank.com', icicibank: 'icicibank.com', axisbank: 'axisbank.com', sbi: 'sbi.co.in',
+         einfochips: 'einfochips.com', arm: 'arm.com', synopsys: 'synopsys.com', cadence: 'cadence.com', mathworks: 'mathworks.com', ansys: 'ansys.com',
+         autodesk: 'autodesk.com', thoughtworks: 'thoughtworks.com', walmart: 'walmart.com', mahindra: 'mahindra.com', tatamotors: 'tatamotors.com',
+         reliance: 'ril.com', jio: 'jio.com', airtel: 'airtel.in', havells: 'havells.com', zensar: 'zensar.com', cummins: 'cummins.com',
+         ericsson: 'ericsson.com', nokia: 'nokia.com', philips: 'philips.com', lg: 'lg.com', juniper: 'juniper.net', abb: 'abb.com', ge: 'ge.com'
+      };
+      const LOGO_SRC = [
+         d => '/api/logo?d=' + encodeURIComponent(d),
+         d => 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(d) + '&sz=128'
+      ];
+      const LOGO_CACHE = {};   // domain -> working image url, or false when nothing loaded
+      const slugOf = x => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      function domainOf(u) {
+         const a = slugOf(u.s), b = slugOf(u.co), f = slugOf(String(u.s).split(/\s+/)[0]);
+         if (DOMAINS[a]) return DOMAINS[a];
+         if (DOMAINS[b]) return DOMAINS[b];
+         if (f.length >= 4 && DOMAINS[f]) return DOMAINS[f];
+         if (a === 'unknowncompany') return '';
+         return a.length >= 3 ? a + '.com' : '';   // best guess for companies not listed above
+      }
+      function lgNext(img) {
+         const d = img.dataset.d, i = (+img.dataset.i || 0) + 1;
+         if (i < LOGO_SRC.length) { img.dataset.i = i; img.src = LOGO_SRC[i](d); }
+         else { LOGO_CACHE[d] = false; img.remove(); }
+      }
+      function lgOk(img) {
+         const d = img.dataset.d, i = +img.dataset.i || 0;
+         if (img.naturalWidth < (i === 0 ? 16 : 32)) return lgNext(img);
+         LOGO_CACHE[d] = img.src;
+         if (img.parentNode) img.parentNode.classList.add('has');
+      }
       const logo = (u, c) => {
          const bg = BRAND_COLORS[u.s.toLowerCase()] || ('hsl(' + u.hue + ' 55% 42%)');
-         return '<span class="lgo ' + (c || '') + '" style="background:' + bg + ';--bg1:' + bg + '" aria-hidden="true"><b>' + esc(u.ini) + '</b></span>';
+         const d = domainOf(u), hit = d ? LOGO_CACHE[d] : false;
+         let img = '';
+         if (hit) img = '<img alt="" src="' + esc(hit) + '">';
+         else if (d && hit === undefined) img = '<img alt="" referrerpolicy="no-referrer" data-d="' + esc(d) + '" data-i="0" src="' + esc(LOGO_SRC[0](d)) + '" onload="lgOk(this)" onerror="lgNext(this)">';
+         return '<span class="lgo ' + (c || '') + (hit ? ' has' : '') + '" style="background:' + bg + ';--bg1:' + bg + '" aria-hidden="true"><b>' + esc(u.ini) + '</b>' + img + '</span>';
       };
 
       /* ---------- state ---------- */
@@ -1866,7 +2266,7 @@
             if (!o.skipDay && S.day !== 'all' && dkey(u.posted) !== S.day) return false;
             if (S.savedOnly && !S.saved.has(u.id)) return false;
             if (S.onlyElig && ps && checkElig(u).v === 'no') return false;
-            if (q && !(u.co + ' ' + u.role + ' ' + u.sum + ' ' + u.stack.join(' ') + ' ' + u.mode).toLowerCase().includes(q)) return false;
+            if (q && !(u.co + ' ' + u.role + ' ' + u.sum + ' ' + u.stack.join(' ') + ' ' + u.mode + ' ' + u.locs.join(' ')).toLowerCase().includes(q)) return false;
             return true;
          });
       }
@@ -1880,7 +2280,7 @@
             '<button type="button" data-savedonly data-tip="Saved" aria-label="Show saved updates only">' + I.mark + '</button>' +
             '<button type="button" data-panel="date" data-tip="Filter by date" aria-label="Filter by date">' + I.cal + '</button>' +
             '<button type="button" data-panel="elig" data-tip="Am I eligible?" aria-label="Check my eligibility">' + I.cap + '</button></nav>' +
-            '<section class="list"><header class="lh"><h1>Placement Wire <small><span data-count>0</span> <span data-word>updates</span></small></h1>' +
+            '<section class="list"><header class="lh"><h1>PlacementPulse <small><span data-count>0</span> <span data-word>updates</span></small></h1>' +
             '<label class="srch">' + I.search + '<input data-f="q" placeholder="Search company, role or skill" aria-label="Search"></label>' +
             '<div class="sg" id="types"></div>' +
             '<div class="two"><label class="ctl"><span class="cl">Location</span><span class="slct">' + I.pin + '<select data-f="loc" id="locsel"></select>' + I.chev + '</span></label>' +
@@ -1909,7 +2309,7 @@
          const e = profSet() ? checkElig(u).v : null;
          return '<button type="button" class="row' + (u.id === S.sel ? ' sel' : '') + '" data-select="' + u.id + '">' + logo(u) +
             '<div class="rw"><div class="rw-t"><b>' + esc(u.s) + '</b><time>' + ago(u) + '</time></div><div class="rw-r">' + esc(u.role || u.sum || 'Details in the original message') + '</div>' +
-            '<div class="rw-l">' + I.pin + '<span>' + esc(u.mode || 'Location not stated') + '</span><i class="sep"></i><span class="tp ' + TYPEC[u.type] + '">' + u.type + '</span></div>' +
+            '<div class="rw-l">' + I.pin + '<span>' + esc(u.locs.join(', ') || 'Location not stated') + '</span><i class="sep"></i><span class="tp ' + TYPEC[u.type] + '">' + u.type + '</span></div>' +
             '<div class="rw-m">' + (u.pkg != null ? '<span class="pill pk">' + lpa(u.pkg) + '</span>' : '') + '<span class="pill b-' + u.b + '">' + leftShort(u) + '</span>' + (e ? ebHTML(e) : '') + '</div></div></button>';
       }
       function results(keep) {
@@ -1943,8 +2343,11 @@
          const h = r.v === 'yes' ? ['You are eligible', 'You meet all ' + r.it.length + ' requirements'] :
             r.v === 'no' ? ['You don\u2019t meet ' + r.fails.length + (r.fails.length > 1 ? ' requirements' : ' requirement'), 'Not eligible for this one as things stand'] :
                ['Looks fine so far', 'Add your ' + r.miss.map(x => x.k.toLowerCase()).join(', ') + ' to be sure'];
+         const P = S.prof || {}, mine = { 'Branch': P.branch || '', 'Batch': P.batch || '', 'CGPA': P.cgpa || '', 'Class 10': P.c10 ? P.c10 + '%' : '', 'Class 12': P.c12 ? P.c12 + '%' : '' };
+         const by = {}; r.it.forEach(i => { by[i.k] = i; });
+         const rows = ['Branch', 'Batch', 'CGPA', 'Class 10', 'Class 12'].map(k => by[k] || { k: k, need: 'Not mentioned', have: mine[k], ok: 'none' }).concat(by['Backlogs'] ? [by['Backlogs']] : []);
          return '<section class="eg ' + r.v + '"><div class="eg-h"><span class="eg-ic">' + sz(r.v === 'yes' ? I.check : r.v === 'no' ? I.x : I.q, 20) + '</span><div><b>' + h[0] + '</b><small>' + h[1] + '</small></div><button type="button" data-panel="elig">Edit details</button></div>' +
-            '<ul class="eg-l">' + r.it.map(i => '<li class="' + (i.ok === true ? 'ok' : i.ok === false ? 'bad' : 'unk') + '"><span class="m">' + sz(i.ok === true ? I.check : i.ok === false ? I.x : I.dash, 12) + '</span><span class="kk">' + i.k + '</span><span class="n">' + esc(i.need) + '</span><span class="h">' + (i.na ? 'Not required' : i.have ? 'You: ' + esc(i.have) : 'Not added') + '</span></li>').join('') + '</ul></section>';
+            '<ul class="eg-l">' + rows.map(i => '<li class="' + (i.ok === true ? 'ok' : i.ok === false ? 'bad' : i.ok === 'none' ? 'unk nm' : 'unk') + '"><span class="m">' + sz(i.ok === true ? I.check : i.ok === false ? I.x : I.dash, 12) + '</span><span class="kk">' + i.k + '</span><span class="n">' + esc(i.need) + '</span><span class="h">' + (i.ok === 'none' ? (i.have ? 'You: ' + esc(i.have) : '') : i.na ? 'Not required' : i.have ? 'You: ' + esc(i.have) : 'Not added') + '</span></li>').join('') + '</ul></section>';
       }
       const ring = u => {
          const C = 2 * Math.PI * 26; const none = u.b === 'none'; const p = none ? 0 : u.closed ? 1 : Math.max(.07, 1 - Math.min(Math.max(u.days, 0), 14) / 14);
@@ -1964,7 +2367,7 @@
             '<h2>' + esc(u.co) + '</h2><p class="rl">' + esc(u.role || u.sum) + '</p></div>' +
             '<div class="metrics"><div class="mt"><span class="k">Package</span>' + (u.pkg != null ? '<b class="v big">₹' + num(u.pkg) + '<small>LPA</small></b><span class="s">' + esc(u.pt) + '</span>' : '<b class="v">Not stated</b><span class="s">' + esc(u.pt || 'Check the original message') + '</span>') + '</div>' +
             '<div class="mt rg">' + ring(u) + '<div><span class="k">Deadline</span>' + dlBlock + '</div></div>' +
-            '<div class="mt"><span class="k">Location</span><b class="v">' + I.pin + esc(u.mode || 'Not stated') + '</b><span class="s">' + esc(u.modeNote || 'Reporting location') + '</span></div></div>' +
+            '<div class="mt"><span class="k">Location</span><b class="v">' + I.pin + esc(u.locs.join(', ') || 'Not stated') + '</b><span class="s">' + esc(u.mode ? 'Report at: ' + u.mode : (u.modeNote || 'Company location')) + '</span></div></div>' +
             '<div class="body">' + egHTML(u) +
             (u.elig.length ? '<section><h4>Eligibility</h4><ul class="ck">' + u.elig.map(e => '<li>' + I.check + '<span>' + esc(e) + '</span></li>').join('') + '</ul></section>' : '') +
             chipsSec('Tech stack', u.stack, '', u.stackInferred ? 'estimated' : '') +
@@ -2161,7 +2564,7 @@
             const rows = Array.isArray(d) ? d : (d.placements || d.items || d.data || []);
             setData(rows || []);
          } catch (err) {
-            console.warn('[placement-wire] fetch failed', err);
+            console.warn('[placementpulse] fetch failed', err);
             if (first) { S.status = "error"; results(); }
          }
       }
